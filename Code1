@@ -1,0 +1,58 @@
+<section class="clearfix">
+  <div class="container webpage-container">
+       <div class="header_line col-md-12 no-padding">
+                     <h2 class="home_ttl upper clearfix home_back_img woo_ttl">Products</h2>
+       </div> 
+      <div class="service_top_bot">
+              <?php
+			  
+			  global $product;
+				
+			  $args = array(
+					'post_type'   =>  'product',                    
+                    //'post__in'=> array(121,122,124), 					
+					'posts_per_page' =>  6,
+					//'product_cat'    => '0',
+					//'stock'       =>  0,
+					//'showposts'   =>  6,
+					'orderby'     =>  'date',
+					'order'       =>  'ASC',					
+                );			  
+			  
+			   $loop = new WP_Query( $args );
+               while ( $loop->have_posts() ) : $loop->the_post(); global $product; ?>
+
+					<div class="services_part col-md-4 clearfix">    
+						<?php 
+							if ( has_post_thumbnail( $loop->post->ID ) ) 
+								
+							
+							
+								echo get_the_post_thumbnail( $loop->post->ID, 'product' );                               							
+                             								  
+							else 
+							
+						
+								echo '<img src="' . woocommerce_placeholder_img_src() . '" alt="Placeholder" width="65px" height="115px" />'; 
+								
+								
+						?>
+						<h3><a href="<?php echo get_permalink($loop->post->ID); ?>"><?php the_title(); ?></a></h3>
+
+						<?php 
+							echo $product->get_price_html(); 
+							woocommerce_template_loop_add_to_cart( $loop->post, $product );
+						?>    
+					</div>
+
+					<?php 
+						endwhile;
+						wp_reset_query(); 
+					?>
+			  
+			  
+               
+			   
+              </div>
+       </div>
+</section>
